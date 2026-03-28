@@ -1,6 +1,6 @@
-import { i18n } from "@mariozechner/mini-lit";
 import type { AgentTool } from "@dg-claw/agent";
 import type { ToolResultMessage } from "@dg-claw/ai";
+import { i18n } from "@mariozechner/mini-lit";
 import { type Static, Type } from "@sinclair/typebox";
 import { html } from "lit";
 import { createRef, ref } from "lit/directives/ref.js";

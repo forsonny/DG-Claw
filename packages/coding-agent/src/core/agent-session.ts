@@ -15,14 +15,7 @@
 
 import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { basename, dirname, join, resolve } from "node:path";
-import type {
-	Agent,
-	AgentEvent,
-	AgentMessage,
-	AgentState,
-	AgentTool,
-	ThinkingLevel,
-} from "@dg-claw/agent";
+import type { Agent, AgentEvent, AgentMessage, AgentState, AgentTool, ThinkingLevel } from "@dg-claw/agent";
 import type { AssistantMessage, ImageContent, Message, Model, TextContent } from "@dg-claw/ai";
 import { isContextOverflow, modelsAreEqual, resetApiProviders, supportsXhigh } from "@dg-claw/ai";
 import { getDocsPath } from "../config.js";

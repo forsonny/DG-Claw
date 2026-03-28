@@ -8,12 +8,7 @@
  * - Interact with the user via UI primitives
  */
 
-import type {
-	AgentMessage,
-	AgentToolResult,
-	AgentToolUpdateCallback,
-	ThinkingLevel,
-} from "@dg-claw/agent";
+import type { AgentMessage, AgentToolResult, AgentToolUpdateCallback, ThinkingLevel } from "@dg-claw/agent";
 import type {
 	Api,
 	AssistantMessageEvent,
