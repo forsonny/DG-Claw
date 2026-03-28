@@ -1,5 +1,5 @@
-import type { Api, Context, Model, SimpleStreamOptions } from "@mariozechner/pi-ai";
-import { streamSimple } from "@mariozechner/pi-ai";
+import type { Api, Context, Model, SimpleStreamOptions } from "@dg-claw/ai";
+import { streamSimple } from "@dg-claw/ai";
 
 /**
  * Centralized proxy decision logic.

@@ -40,9 +40,9 @@
 
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import type { ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
-import { DynamicBorder, getAgentDir } from "@mariozechner/pi-coding-agent";
-import { Container, Key, type SelectItem, SelectList, Text } from "@mariozechner/pi-tui";
+import type { ExtensionAPI, ExtensionContext } from "@dg-claw/coding-agent";
+import { DynamicBorder, getAgentDir } from "@dg-claw/coding-agent";
+import { Container, Key, type SelectItem, SelectList, Text } from "@dg-claw/tui";
 
 // Preset configuration
 interface Preset {
