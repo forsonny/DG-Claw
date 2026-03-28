@@ -122,8 +122,8 @@ Content`,
 			expect(result.skills.some((r) => r.path === skillFile && r.enabled)).toBe(true);
 		});
 
-		it("should resolve project paths relative to .pi", async () => {
-			const extDir = join(tempDir, ".pi", "extensions");
+		it("should resolve project paths relative to .dg-claw", async () => {
+			const extDir = join(tempDir, ".dg-claw", "extensions");
 			mkdirSync(extDir, { recursive: true });
 			const extPath = join(extDir, "project-ext.ts");
 			writeFileSync(extPath, "export default function() {}");
@@ -147,7 +147,7 @@ Content`,
 		});
 
 		it("should auto-discover project prompts with overrides", async () => {
-			const promptsDir = join(tempDir, ".pi", "prompts");
+			const promptsDir = join(tempDir, ".dg-claw", "prompts");
 			mkdirSync(promptsDir, { recursive: true });
 			const promptPath = join(promptsDir, "is.md");
 			writeFileSync(promptPath, "Is prompt");
@@ -158,15 +158,15 @@ Content`,
 			expect(result.prompts.some((r) => r.path === promptPath && !r.enabled)).toBe(true);
 		});
 
-		it("should resolve directory with package.json pi.extensions in extensions setting", async () => {
-			// Create a package with pi.extensions in package.json
+		it("should resolve directory with package.json dg-claw.extensions in extensions setting", async () => {
+			// Create a package with dg-claw.extensions in package.json
 			const pkgDir = join(tempDir, "my-extensions-pkg");
 			mkdirSync(join(pkgDir, "extensions"), { recursive: true });
 			writeFileSync(
 				join(pkgDir, "package.json"),
 				JSON.stringify({
 					name: "my-extensions-pkg",
-					pi: {
+					"dg-claw": {
 						extensions: ["./extensions/clip.ts", "./extensions/cost.ts"],
 					},
 				}),
@@ -180,7 +180,7 @@ Content`,
 
 			const result = await packageManager.resolve();
 
-			// Should find the extensions declared in package.json pi.extensions
+			// Should find the extensions declared in package.json dg-claw.extensions
 			expect(result.extensions.some((r) => r.path === join(pkgDir, "extensions", "clip.ts") && r.enabled)).toBe(
 				true,
 			);
@@ -274,7 +274,7 @@ Content`,
 
 			try {
 				const cwd = join(tempDir, "scratch", "nested");
-				const localAgentDir = join(tempDir, ".pi", "agent");
+				const localAgentDir = join(tempDir, ".dg-claw", "agent");
 				const localSettingsManager = SettingsManager.inMemory();
 				mkdirSync(cwd, { recursive: true });
 				mkdirSync(localAgentDir, { recursive: true });
@@ -326,10 +326,10 @@ Content`,
 			expect(result.skills.some((r) => r.path.includes("venv") && r.enabled)).toBe(false);
 		});
 
-		it("should not apply parent .gitignore to .pi auto-discovery", async () => {
-			writeFileSync(join(tempDir, ".gitignore"), ".pi\n");
+		it("should not apply parent .gitignore to .dg-claw auto-discovery", async () => {
+			writeFileSync(join(tempDir, ".gitignore"), ".dg-claw\n");
 
-			const skillDir = join(tempDir, ".pi", "skills", "auto-skill");
+			const skillDir = join(tempDir, ".dg-claw", "skills", "auto-skill");
 			mkdirSync(skillDir, { recursive: true });
 			const skillPath = join(skillDir, "SKILL.md");
 			writeFileSync(skillPath, "---\nname: auto-skill\ndescription: Auto\n---\nContent");
@@ -348,14 +348,14 @@ Content`,
 			expect(result.extensions.some((r) => r.path === extPath && r.enabled)).toBe(true);
 		});
 
-		it("should handle directories with pi manifest", async () => {
+		it("should handle directories with dg-claw manifest", async () => {
 			const pkgDir = join(tempDir, "my-package");
 			mkdirSync(pkgDir, { recursive: true });
 			writeFileSync(
 				join(pkgDir, "package.json"),
 				JSON.stringify({
 					name: "my-package",
-					pi: {
+					"dg-claw": {
 						extensions: ["./src/index.ts"],
 						skills: ["./skills"],
 					},
@@ -564,7 +564,7 @@ Content`,
 			expect(settings.packages?.[0]).toBe(expected);
 		});
 
-		it("should store project local packages relative to .pi settings base", () => {
+		it("should store project local packages relative to .dg-claw settings base", () => {
 			const projectPkgDir = join(tempDir, "project-local-pkg");
 			mkdirSync(join(projectPkgDir, "extensions"), { recursive: true });
 			writeFileSync(join(projectPkgDir, "extensions", "index.ts"), "export default function() {}");
@@ -573,7 +573,7 @@ Content`,
 			expect(added).toBe(true);
 
 			const settings = settingsManager.getProjectSettings();
-			const rel = relative(join(tempDir, ".pi"), projectPkgDir);
+			const rel = relative(join(tempDir, ".dg-claw"), projectPkgDir);
 			const expected = rel.startsWith(".") ? rel : `./${rel}`;
 			expect(settings.packages?.[0]).toBe(expected);
 		});
@@ -777,7 +777,7 @@ Content`,
 		});
 	});
 
-	describe("pattern filtering in pi manifest", () => {
+	describe("pattern filtering in dg-claw manifest", () => {
 		it("should support glob patterns in manifest extensions", async () => {
 			const pkgDir = join(tempDir, "manifest-pkg");
 			mkdirSync(join(pkgDir, "extensions"), { recursive: true });
@@ -789,7 +789,7 @@ Content`,
 				join(pkgDir, "package.json"),
 				JSON.stringify({
 					name: "manifest-pkg",
-					pi: {
+					"dg-claw": {
 						extensions: ["extensions", "node_modules/dep/extensions", "!**/skip.ts"],
 					},
 				}),
@@ -817,7 +817,7 @@ Content`,
 				join(pkgDir, "package.json"),
 				JSON.stringify({
 					name: "skill-manifest-pkg",
-					pi: {
+					"dg-claw": {
 						skills: ["skills", "!**/bad-skill"],
 					},
 				}),
@@ -842,7 +842,7 @@ Content`,
 				join(pkgDir, "package.json"),
 				JSON.stringify({
 					name: "layered-pkg",
-					pi: {
+					"dg-claw": {
 						extensions: ["extensions", "!**/baz.ts"],
 					},
 				}),
@@ -1046,7 +1046,7 @@ Content`,
 				join(pkgDir, "package.json"),
 				JSON.stringify({
 					name: "manifest-force-pkg",
-					pi: {
+					"dg-claw": {
 						extensions: ["extensions", "!**/two.ts", "+extensions/two.ts"],
 					},
 				}),
@@ -1268,7 +1268,7 @@ export default function(api) { api.registerTool({ name: "test", description: "te
 			expect(result.extensions.some((r) => pathEndsWith(r.path, "agents.ts"))).toBe(false);
 		});
 
-		it("should respect package.json pi.extensions manifest in subdirectories", async () => {
+		it("should respect package.json dg-claw.extensions manifest in subdirectories", async () => {
 			const pkgDir = join(tempDir, "manifest-subdir-pkg");
 			mkdirSync(join(pkgDir, "extensions", "custom"), { recursive: true });
 
@@ -1276,7 +1276,7 @@ export default function(api) { api.registerTool({ name: "test", description: "te
 			writeFileSync(
 				join(pkgDir, "extensions", "custom", "package.json"),
 				JSON.stringify({
-					pi: {
+					"dg-claw": {
 						extensions: ["./main.ts"],
 					},
 				}),
@@ -1351,7 +1351,7 @@ export default function(api) { api.registerTool({ name: "test", description: "te
 
 			expect(runCommandSpy).toHaveBeenCalledWith(
 				"npm",
-				["install", "example@latest", "--prefix", join(tempDir, ".pi", "npm")],
+				["install", "example@latest", "--prefix", join(tempDir, ".dg-claw", "npm")],
 				undefined,
 			);
 		});
@@ -1401,7 +1401,7 @@ export default function(api) { api.registerTool({ name: "test", description: "te
 		});
 
 		it("should not fetch npm registry during resolve for installed unpinned packages", async () => {
-			const installedPath = join(tempDir, ".pi", "npm", "node_modules", "example");
+			const installedPath = join(tempDir, ".dg-claw", "npm", "node_modules", "example");
 			mkdirSync(join(installedPath, "extensions"), { recursive: true });
 			writeFileSync(join(installedPath, "package.json"), JSON.stringify({ name: "example", version: "1.0.0" }));
 			writeFileSync(join(installedPath, "extensions", "index.ts"), "export default function() {};");
@@ -1415,7 +1415,7 @@ export default function(api) { api.registerTool({ name: "test", description: "te
 		});
 
 		it("should reinstall pinned npm packages when installed version does not match", async () => {
-			const installedPath = join(tempDir, ".pi", "npm", "node_modules", "example");
+			const installedPath = join(tempDir, ".dg-claw", "npm", "node_modules", "example");
 			mkdirSync(installedPath, { recursive: true });
 			writeFileSync(join(installedPath, "package.json"), JSON.stringify({ name: "example", version: "1.0.0" }));
 			settingsManager.setProjectPackages(["npm:example@2.0.0"]);
@@ -1438,7 +1438,7 @@ export default function(api) { api.registerTool({ name: "test", description: "te
 		});
 
 		it("should report updates for installed unpinned npm packages", async () => {
-			const installedPath = join(tempDir, ".pi", "npm", "node_modules", "example");
+			const installedPath = join(tempDir, ".dg-claw", "npm", "node_modules", "example");
 			mkdirSync(installedPath, { recursive: true });
 			writeFileSync(join(installedPath, "package.json"), JSON.stringify({ name: "example", version: "1.0.0" }));
 			settingsManager.setProjectPackages(["npm:example"]);
@@ -1461,7 +1461,7 @@ export default function(api) { api.registerTool({ name: "test", description: "te
 		});
 
 		it("should skip pinned packages when checking for updates", async () => {
-			const installedNpmPath = join(tempDir, ".pi", "npm", "node_modules", "example");
+			const installedNpmPath = join(tempDir, ".dg-claw", "npm", "node_modules", "example");
 			mkdirSync(installedNpmPath, { recursive: true });
 			writeFileSync(join(installedNpmPath, "package.json"), JSON.stringify({ name: "example", version: "1.0.0" }));
 			const parsedGitSource = (packageManager as any).parseSource("git:github.com/example/repo@v1");
