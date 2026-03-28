@@ -1,7 +1,7 @@
 {
-	"name": "@mariozechner/pi-web-ui",
-	"version": "0.63.1",
-	"description": "Reusable web UI components for AI chat interfaces powered by @mariozechner/pi-ai",
+	"name": "@dg-claw/web-ui",
+	"version": "0.1.0",
+	"description": "Reusable web UI components for AI chat interfaces powered by DG-Claw",
 	"type": "module",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
@@ -18,8 +18,8 @@
 	},
 	"dependencies": {
 		"@lmstudio/sdk": "^1.5.0",
-		"@mariozechner/pi-ai": "^0.63.1",
-		"@mariozechner/pi-tui": "^0.63.1",
+		"@dg-claw/ai": "0.1.0",
+		"@dg-claw/tui": "0.1.0",
 		"docx-preview": "^0.3.7",
 		"jszip": "^3.10.1",
 		"lucide": "^0.544.0",
@@ -47,5 +47,10 @@
 		"mini-lit"
 	],
 	"author": "Mario Zechner",
-	"license": "MIT"
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/forsonny/DG-Claw.git",
+		"directory": "packages/web-ui"
+	}
 }

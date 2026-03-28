@@ -1,7 +1,7 @@
 {
-	"name": "@mariozechner/pi-ai",
-	"version": "0.63.1",
-	"description": "Unified LLM API with automatic model discovery and provider configuration",
+	"name": "@dg-claw/ai",
+	"version": "0.1.0",
+	"description": "Unified LLM API with automatic model discovery and provider configuration for DG-Claw",
 	"type": "module",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
@@ -56,7 +56,7 @@
 		}
 	},
 	"bin": {
-		"pi-ai": "./dist/cli.js"
+		"dg-claw-ai": "./dist/cli.js"
 	},
 	"files": [
 		"dist",
@@ -100,7 +100,7 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/badlogic/pi-mono.git",
+		"url": "git+https://github.com/forsonny/DG-Claw.git",
 		"directory": "packages/ai"
 	},
 	"engines": {
