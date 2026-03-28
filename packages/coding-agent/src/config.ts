@@ -168,7 +168,7 @@ export const APP_NAME: string = pkg.dgClawConfig?.name || "dg-claw";
 export const CONFIG_DIR_NAME: string = pkg.dgClawConfig?.configDir || ".dg-claw";
 export const VERSION: string = pkg.version;
 
-// e.g., PI_CODING_AGENT_DIR or TAU_CODING_AGENT_DIR
+// e.g., DG_CLAW_CODING_AGENT_DIR
 export const ENV_AGENT_DIR = `${APP_NAME.toUpperCase()}_CODING_AGENT_DIR`;
 
 const DEFAULT_SHARE_VIEWER_URL = "";
@@ -180,10 +180,10 @@ export function getShareViewerUrl(gistId: string): string {
 }
 
 // =============================================================================
-// User Config Paths (~/.pi/agent/*)
+// User Config Paths (~/.dg-claw/agent/*)
 // =============================================================================
 
-/** Get the agent config directory (e.g., ~/.pi/agent/) */
+/** Get the agent config directory (e.g., ~/.dg-claw/agent/) */
 export function getAgentDir(): string {
 	const envDir = process.env[ENV_AGENT_DIR];
 	if (envDir) {

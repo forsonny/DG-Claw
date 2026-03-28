@@ -2,7 +2,7 @@
 
 A full-service AI agent host for VPS deployment.
 
-Built on the [pi-mono](https://github.com/badlogic/pi-mono) agent runtime.
+Built on the [pi-mono](https://github.com/badlogic/pi-mono) agent runtime (forked as DG-Claw).
 
 ## Status
 

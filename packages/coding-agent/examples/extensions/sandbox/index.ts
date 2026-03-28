@@ -6,10 +6,10 @@
  * bubblewrap on Linux).
  *
  * Config files (merged, project takes precedence):
- * - ~/.pi/agent/sandbox.json (global)
- * - <cwd>/.pi/sandbox.json (project-local)
+ * - ~/.dg-claw/agent/sandbox.json (global)
+ * - <cwd>/.dg-claw/sandbox.json (project-local)
  *
- * Example .pi/sandbox.json:
+ * Example .dg-claw/sandbox.json:
  * ```json
  * {
  *   "enabled": true,
@@ -26,13 +26,13 @@
  * ```
  *
  * Usage:
- * - `pi -e ./sandbox` - sandbox enabled with default/config settings
- * - `pi -e ./sandbox --no-sandbox` - disable sandboxing
+ * - `dg-claw -e ./sandbox` - sandbox enabled with default/config settings
+ * - `dg-claw -e ./sandbox --no-sandbox` - disable sandboxing
  * - `/sandbox` - show current sandbox configuration
  *
  * Setup:
- * 1. Copy sandbox/ directory to ~/.pi/agent/extensions/
- * 2. Run `npm install` in ~/.pi/agent/extensions/sandbox/
+ * 1. Copy sandbox/ directory to ~/.dg-claw/agent/extensions/
+ * 2. Run `npm install` in ~/.dg-claw/agent/extensions/sandbox/
  *
  * Linux also requires: bubblewrap, socat, ripgrep
  */
@@ -73,7 +73,7 @@ const DEFAULT_CONFIG: SandboxConfig = {
 };
 
 function loadConfig(cwd: string): SandboxConfig {
-	const projectConfigPath = join(cwd, ".pi", "sandbox.json");
+	const projectConfigPath = join(cwd, ".dg-claw", "sandbox.json");
 	const globalConfigPath = join(getAgentDir(), "extensions", "sandbox.json");
 
 	let globalConfig: Partial<SandboxConfig> = {};
