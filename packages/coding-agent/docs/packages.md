@@ -105,13 +105,13 @@ Local paths point to files or directories on disk and are added to settings with
 
 ## Creating a Pi Package
 
-Add a `pi` manifest to `package.json` or use conventional directories. Include the `pi-package` keyword for discoverability.
+Add a `dg-claw` manifest to `package.json` or use conventional directories. Include the `pi-package` keyword for discoverability.
 
 ```json
 {
   "name": "my-package",
-  "keywords": ["pi-package"],
-  "pi": {
+  "keywords": ["dg-claw-package"],
+  "dg-claw": {
     "extensions": ["./extensions"],
     "skills": ["./skills"],
     "prompts": ["./prompts"],
@@ -124,13 +124,13 @@ Paths are relative to the package root. Arrays support glob patterns and `!exclu
 
 ### Gallery Metadata
 
-The [package gallery](https://shittycodingagent.ai/packages) displays packages tagged with `pi-package`. Add `video` or `image` fields to show a preview:
+The [package gallery](https://shittycodingagent.ai/packages) displays packages tagged with `dg-claw-package`. Add `video` or `image` fields to show a preview:
 
 ```json
 {
   "name": "my-package",
-  "keywords": ["pi-package"],
-  "pi": {
+  "keywords": ["dg-claw-package"],
+  "dg-claw": {
     "extensions": ["./extensions"],
     "video": "https://example.com/demo.mp4",
     "image": "https://example.com/screenshot.png"
@@ -156,11 +156,11 @@ If no `pi` manifest is present, pi auto-discovers resources from these directori
 
 ## Dependencies
 
-Third party runtime dependencies belong in `dependencies` in `package.json`. Dependencies that do not register extensions, skills, prompt templates, or themes also belong in `dependencies`. When pi installs a package from npm or git, it runs `npm install`, so those dependencies are installed automatically.
+Third party runtime dependencies belong in `dependencies` in `package.json`. Dependencies that do not register extensions, skills, prompt templates, or themes also belong in `dependencies`. When DG-Claw installs a package from npm or git, it runs `npm install`, so those dependencies are installed automatically.
 
-Pi bundles core packages for extensions and skills. If you import any of these, list them in `peerDependencies` with a `"*"` range and do not bundle them: `@mariozechner/pi-ai`, `@mariozechner/pi-agent-core`, `@mariozechner/pi-coding-agent`, `@mariozechner/pi-tui`, `@sinclair/typebox`.
+DG-Claw bundles core packages for extensions and skills. If you import any of these, list them in `peerDependencies` with a `"*"` range and do not bundle them: `@dg-claw/ai`, `@dg-claw/agent`, `@dg-claw/coding-agent`, `@dg-claw/tui`, `@sinclair/typebox`.
 
-Other pi packages must be bundled in your tarball. Add them to `dependencies` and `bundledDependencies`, then reference their resources through `node_modules/` paths. Pi loads packages with separate module roots, so separate installs do not collide or share modules.
+Other DG-Claw packages must be bundled in your tarball. Add them to `dependencies` and `bundledDependencies`, then reference their resources through `node_modules/` paths. Pi loads packages with separate module roots, so separate installs do not collide or share modules.
 
 Example:
 
@@ -170,7 +170,7 @@ Example:
     "shitty-extensions": "^1.0.1"
   },
   "bundledDependencies": ["shitty-extensions"],
-  "pi": {
+  "dg-claw": {
     "extensions": ["extensions", "node_modules/shitty-extensions/extensions"],
     "skills": ["skills", "node_modules/shitty-extensions/skills"]
   }

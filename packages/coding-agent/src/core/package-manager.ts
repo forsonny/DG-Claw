@@ -14,7 +14,7 @@ const NETWORK_TIMEOUT_MS = 10000;
 const UPDATE_CHECK_CONCURRENCY = 4;
 
 function isOfflineModeEnabled(): boolean {
-	const value = process.env.PI_OFFLINE;
+	const value = process.env.DG_CLAW_OFFLINE;
 	if (!value) return false;
 	return value === "1" || value.toLowerCase() === "true" || value.toLowerCase() === "yes";
 }
@@ -249,7 +249,7 @@ function collectFiles(
 	return files;
 }
 
-type SkillDiscoveryMode = "pi" | "agents";
+type SkillDiscoveryMode = "dg-claw" | "agents";
 
 function collectSkillEntries(
 	dir: string,
@@ -308,7 +308,7 @@ function collectSkillEntries(
 			}
 
 			const relPath = toPosixPath(relative(root, fullPath));
-			if (mode === "pi" && dir === root && isFile && entry.name.endsWith(".md") && !ig.ignores(relPath)) {
+			if (mode === "dg-claw" && dir === root && isFile && entry.name.endsWith(".md") && !ig.ignores(relPath)) {
 				entries.push(fullPath);
 				continue;
 			}
@@ -441,8 +441,8 @@ function collectAutoThemeEntries(dir: string): string[] {
 function readPiManifestFile(packageJsonPath: string): PiManifest | null {
 	try {
 		const content = readFileSync(packageJsonPath, "utf-8");
-		const pkg = JSON.parse(content) as { pi?: PiManifest };
-		return pkg.pi ?? null;
+		const pkg = JSON.parse(content) as { "dg-claw"?: PiManifest };
+		return pkg["dg-claw"] ?? null;
 	} catch {
 		return null;
 	}
@@ -538,7 +538,7 @@ function collectAutoExtensionEntries(dir: string): string[] {
  */
 function collectResourceFiles(dir: string, resourceType: ResourceType): string[] {
 	if (resourceType === "skills") {
-		return collectSkillEntries(dir, "pi");
+		return collectSkillEntries(dir, "dg-claw");
 	}
 	if (resourceType === "extensions") {
 		return collectAutoExtensionEntries(dir);
@@ -1856,8 +1856,8 @@ export class DefaultPackageManager implements PackageManager {
 
 		try {
 			const content = readFileSync(packageJsonPath, "utf-8");
-			const pkg = JSON.parse(content) as { pi?: PiManifest };
-			return pkg.pi ?? null;
+			const pkg = JSON.parse(content) as { "dg-claw"?: PiManifest };
+			return pkg["dg-claw"] ?? null;
 		} catch {
 			return null;
 		}
@@ -1986,7 +1986,7 @@ export class DefaultPackageManager implements PackageManager {
 		addResources(
 			"skills",
 			[
-				...collectAutoSkillEntries(projectDirs.skills, "pi"),
+				...collectAutoSkillEntries(projectDirs.skills, "dg-claw"),
 				...projectAgentsSkillDirs.flatMap((dir) => collectAutoSkillEntries(dir, "agents")),
 			],
 			projectMetadata,
@@ -2017,7 +2017,10 @@ export class DefaultPackageManager implements PackageManager {
 		);
 		addResources(
 			"skills",
-			[...collectAutoSkillEntries(userDirs.skills, "pi"), ...collectAutoSkillEntries(userAgentsSkillsDir, "agents")],
+			[
+				...collectAutoSkillEntries(userDirs.skills, "dg-claw"),
+				...collectAutoSkillEntries(userAgentsSkillsDir, "agents"),
+			],
 			userMetadata,
 			userOverrides.skills,
 			globalBaseDir,

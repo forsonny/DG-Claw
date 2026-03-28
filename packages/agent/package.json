@@ -1,7 +1,7 @@
 {
-	"name": "@mariozechner/pi-agent-core",
-	"version": "0.63.1",
-	"description": "General-purpose agent with transport abstraction, state management, and attachment support",
+	"name": "@dg-claw/agent",
+	"version": "0.1.0",
+	"description": "General-purpose agent with transport abstraction, state management, and attachment support for DG-Claw",
 	"type": "module",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
@@ -17,7 +17,7 @@
 		"prepublishOnly": "npm run clean && npm run build"
 	},
 	"dependencies": {
-		"@mariozechner/pi-ai": "^0.63.1"
+		"@dg-claw/ai": "0.1.0"
 	},
 	"keywords": [
 		"ai",
@@ -30,7 +30,7 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/badlogic/pi-mono.git",
+		"url": "git+https://github.com/forsonny/DG-Claw.git",
 		"directory": "packages/agent"
 	},
 	"engines": {

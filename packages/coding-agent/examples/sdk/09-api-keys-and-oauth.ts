@@ -4,10 +4,10 @@
  * Configure API key resolution via AuthStorage and ModelRegistry.
  */
 
-import { AuthStorage, createAgentSession, ModelRegistry, SessionManager } from "@mariozechner/pi-coding-agent";
+import { AuthStorage, createAgentSession, ModelRegistry, SessionManager } from "@dg-claw/coding-agent";
 
-// Default: AuthStorage uses ~/.pi/agent/auth.json
-// ModelRegistry loads built-in + custom models from ~/.pi/agent/models.json
+// Default: AuthStorage uses ~/.dg-claw/agent/auth.json
+// ModelRegistry loads built-in + custom models from ~/.dg-claw/agent/models.json
 const authStorage = AuthStorage.create();
 const modelRegistry = new ModelRegistry(authStorage);
 

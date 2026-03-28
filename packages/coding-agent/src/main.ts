@@ -5,7 +5,7 @@
  * createAgentSession() options. The SDK does the heavy lifting.
  */
 
-import { type ImageContent, modelsAreEqual, supportsXhigh } from "@mariozechner/pi-ai";
+import { type ImageContent, modelsAreEqual, supportsXhigh } from "@dg-claw/ai";
 import chalk from "chalk";
 import { createInterface } from "readline";
 import { type Args, parseArgs, printHelp } from "./cli/args.js";
@@ -103,7 +103,7 @@ function printPackageCommandHelp(command: PackageCommand): void {
 Install a package and add it to settings.
 
 Options:
-  -l, --local    Install project-locally (.pi/settings.json)
+  -l, --local    Install project-locally (.dg-claw/settings.json)
 
 Examples:
   ${APP_NAME} install npm:@foo/bar
@@ -123,7 +123,7 @@ Remove a package and its source from settings.
 Alias: ${APP_NAME} uninstall <source> [-l]
 
 Options:
-  -l, --local    Remove from project settings (.pi/settings.json)
+  -l, --local    Remove from project settings (.dg-claw/settings.json)
 
 Examples:
   ${APP_NAME} remove npm:@foo/bar
@@ -622,10 +622,10 @@ async function handleConfigCommand(args: string[]): Promise<boolean> {
 
 export async function main(args: string[]) {
 	resetTimings();
-	const offlineMode = args.includes("--offline") || isTruthyEnvFlag(process.env.PI_OFFLINE);
+	const offlineMode = args.includes("--offline") || isTruthyEnvFlag(process.env.DG_CLAW_OFFLINE);
 	if (offlineMode) {
-		process.env.PI_OFFLINE = "1";
-		process.env.PI_SKIP_VERSION_CHECK = "1";
+		process.env.DG_CLAW_OFFLINE = "1";
+		process.env.DG_CLAW_SKIP_VERSION_CHECK = "1";
 	}
 
 	if (await handlePackageCommand(args)) {

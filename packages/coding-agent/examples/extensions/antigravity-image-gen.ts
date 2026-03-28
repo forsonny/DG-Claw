@@ -11,8 +11,8 @@
  *
  * Save modes (tool param, env var, or config file):
  *   save=none     - Don't save to disk (default)
- *   save=project  - Save to <repo>/.pi/generated-images/
- *   save=global   - Save to ~/.pi/agent/generated-images/
+ *   save=project  - Save to <repo>/.dg-claw/generated-images/
+ *   save=global   - Save to ~/.dg-claw/agent/generated-images/
  *   save=custom   - Save to saveDir param or PI_IMAGE_SAVE_DIR
  *
  * Environment variables:
@@ -20,8 +20,8 @@
  *   PI_IMAGE_SAVE_DIR   - Directory for custom save mode
  *
  * Config files (project overrides global):
- *   ~/.pi/agent/extensions/antigravity-image-gen.json
- *   <repo>/.pi/extensions/antigravity-image-gen.json
+ *   ~/.dg-claw/agent/extensions/antigravity-image-gen.json
+ *   <repo>/.dg-claw/extensions/antigravity-image-gen.json
  *   Example: { "save": "global" }
  */
 
@@ -29,8 +29,8 @@ import { randomUUID } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
 import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { StringEnum } from "@mariozechner/pi-ai";
-import { type ExtensionAPI, getAgentDir, withFileMutationQueue } from "@mariozechner/pi-coding-agent";
+import { StringEnum } from "@dg-claw/ai";
+import { type ExtensionAPI, getAgentDir, withFileMutationQueue } from "@dg-claw/coding-agent";
 import { type Static, Type } from "@sinclair/typebox";
 
 const PROVIDER = "google-antigravity";
@@ -51,7 +51,7 @@ const ANTIGRAVITY_ENDPOINT = "https://daily-cloudcode-pa.sandbox.googleapis.com"
 const DEFAULT_ANTIGRAVITY_VERSION = "1.18.3";
 
 const ANTIGRAVITY_HEADERS = {
-	"User-Agent": `antigravity/${process.env.PI_AI_ANTIGRAVITY_VERSION || DEFAULT_ANTIGRAVITY_VERSION} darwin/arm64`,
+	"User-Agent": `antigravity/${process.env.DG_CLAW_AI_ANTIGRAVITY_VERSION || DEFAULT_ANTIGRAVITY_VERSION} darwin/arm64`,
 	"X-Goog-Api-Client": "google-cloud-sdk vscode_cloudshelleditor/0.1",
 	"Client-Metadata": JSON.stringify({
 		ideType: "IDE_UNSPECIFIED",
@@ -185,7 +185,7 @@ function readConfigFile(path: string): ExtensionConfig {
 function loadConfig(cwd: string): ExtensionConfig {
 	const globalPath = join(getAgentDir(), "extensions", "antigravity-image-gen.json");
 	const globalConfig = readConfigFile(globalPath);
-	const projectConfig = readConfigFile(join(cwd, ".pi", "extensions", "antigravity-image-gen.json"));
+	const projectConfig = readConfigFile(join(cwd, ".dg-claw", "extensions", "antigravity-image-gen.json"));
 	return { ...globalConfig, ...projectConfig };
 }
 
@@ -200,7 +200,7 @@ function resolveSaveConfig(params: ToolParams, cwd: string): SaveConfig {
 	}
 
 	if (mode === "project") {
-		return { mode, outputDir: join(cwd, ".pi", "generated-images") };
+		return { mode, outputDir: join(cwd, ".dg-claw", "generated-images") };
 	}
 
 	if (mode === "global") {

@@ -1,7 +1,7 @@
 {
-	"name": "@mariozechner/pi-tui",
-	"version": "0.63.1",
-	"description": "Terminal User Interface library with differential rendering for efficient text-based applications",
+	"name": "@dg-claw/tui",
+	"version": "0.1.0",
+	"description": "Terminal User Interface library with differential rendering for efficient text-based applications for DG-Claw",
 	"type": "module",
 	"main": "dist/index.js",
 	"scripts": {
@@ -28,7 +28,7 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/badlogic/pi-mono.git",
+		"url": "git+https://github.com/forsonny/DG-Claw.git",
 		"directory": "packages/tui"
 	},
 	"engines": {
