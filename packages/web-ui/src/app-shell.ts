@@ -12,6 +12,7 @@ import { html, LitElement } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import "./views/login-view.js";
 import "./views/chat-view.js";
+import "./panels/panel-layout.js";
 
 @customElement("dg-claw-app")
 export class AppShell extends LitElement {
@@ -77,10 +78,12 @@ export class AppShell extends LitElement {
 		}
 
 		return html`
-			<chat-view
-				.sessionId=${sessionId ?? null}
-				.activePanel=${this.activePanel}
-			></chat-view>
+			<panel-layout .activePanel=${this.activePanel}>
+				<chat-view
+					slot="main"
+					.sessionId=${sessionId ?? null}
+				></chat-view>
+			</panel-layout>
 		`;
 	}
 
