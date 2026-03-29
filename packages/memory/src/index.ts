@@ -1,6 +1,7 @@
 // @dg-claw/memory -- public API
 
 export { closeMemoryDb, createMemoryDb } from "./db.js";
+export { type InsertMemoryInput, MemoryStore } from "./store.js";
 export {
 	AGENT_SPACE_CATEGORIES,
 	type AuditAction,
