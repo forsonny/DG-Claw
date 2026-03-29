@@ -1,5 +1,9 @@
 // @dg-claw/autolearn -- public API
 
+// Eval layer
+export { evaluate } from "./eval/harness.js";
+export { judgeResponse, parseJudgeResponse } from "./eval/judge.js";
+export { evaluateTestCase, loadTestCases, runTestCases } from "./eval/test-runner.js";
 export {
 	gitBranchExists,
 	gitCheckoutBranch,
