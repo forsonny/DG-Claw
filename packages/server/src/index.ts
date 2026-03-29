@@ -17,4 +17,7 @@ export type {
 	WsServerMessage,
 } from "./types.js";
 export { SERVER_DEFAULTS } from "./types.js";
-export { AgentBridge } from "./ws/agent-bridge.js";
+export type { AgentBridgeConfig, WsMessageCallback } from "./ws/agent-bridge.js";
+export { AgentBridge, createAgentBridge } from "./ws/agent-bridge.js";
+export type { WsHandlerOptions } from "./ws/ws-handler.js";
+export { registerWsHandler } from "./ws/ws-handler.js";
