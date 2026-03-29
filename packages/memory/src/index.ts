@@ -23,3 +23,4 @@ export {
 	type WriteGateResult,
 } from "./types.js";
 export { DebounceQueue } from "./write/debounce-queue.js";
+export { evaluateGate } from "./write/write-gate.js";
