@@ -1,0 +1,38 @@
+{
+  "name": "@dg-claw/memory",
+  "version": "0.1.0",
+  "description": "Persistent memory layer for DG-Claw agents -- SQLite-backed Entity:Slot:Value triples with tiered retrieval",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist", "README.md"],
+  "scripts": {
+    "clean": "shx rm -rf dist",
+    "build": "tsgo -p tsconfig.build.json",
+    "dev": "tsgo -p tsconfig.build.json --watch --preserveWatchOutput",
+    "test": "vitest --run",
+    "check": "biome check --write --error-on-warnings .",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.0.0",
+    "@dg-claw/ai": "0.1.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.0",
+    "@types/node": "^24.3.0",
+    "typescript": "^5.7.3",
+    "vitest": "^3.2.4"
+  },
+  "keywords": ["ai", "memory", "sqlite", "llm", "knowledge-base"],
+  "author": "Sonny",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/forsonny/DG-Claw.git",
+    "directory": "packages/memory"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
