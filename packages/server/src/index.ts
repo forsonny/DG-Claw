@@ -1,5 +1,11 @@
 // @dg-claw/server -- public API
 
+export type { AdminRoutesConfig } from "./api/admin.js";
+export { registerAdminRoutes } from "./api/admin.js";
+export type { MemoryRoutesConfig } from "./api/memory.js";
+export { registerMemoryRoutes } from "./api/memory.js";
+export type { SessionRoutesConfig } from "./api/sessions.js";
+export { registerSessionRoutes } from "./api/sessions.js";
 export type { AuthPluginOptions } from "./auth/auth-plugin.js";
 export { authPluginRegistration } from "./auth/auth-plugin.js";
 export {
