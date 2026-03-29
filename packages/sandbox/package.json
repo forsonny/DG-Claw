@@ -1,0 +1,32 @@
+{
+  "name": "@dg-claw/sandbox",
+  "version": "0.1.0",
+  "description": "Sandboxed execution for DG-Claw -- Docker container isolation with fallback",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "clean": "shx rm -rf dist",
+    "build": "tsgo -p tsconfig.build.json",
+    "test": "vitest --run",
+    "check": "biome check --write --error-on-warnings ."
+  },
+  "dependencies": {
+    "dockerode": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/dockerode": "^3.3.0",
+    "@types/node": "^24.3.0",
+    "typescript": "^5.7.3",
+    "vitest": "^3.2.4"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/forsonny/DG-Claw.git",
+    "directory": "packages/sandbox"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
