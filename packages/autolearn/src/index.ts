@@ -21,6 +21,9 @@ export { proposeMutation } from "./mutation-engine.js";
 
 // Ratchet loop
 export { runRatchet } from "./ratchet-loop.js";
+
+// Scheduler
+export { loadSchedules, saveSchedule, startDaemon } from "./scheduler.js";
 export type {
 	EvalResult,
 	IterationOutcome,
