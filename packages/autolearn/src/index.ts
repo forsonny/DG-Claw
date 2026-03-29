@@ -4,6 +4,8 @@
 export { evaluate } from "./eval/harness.js";
 export { judgeResponse, parseJudgeResponse } from "./eval/judge.js";
 export { evaluateTestCase, loadTestCases, runTestCases } from "./eval/test-runner.js";
+// File lock
+export { acquireLock, isLocked } from "./file-lock.js";
 export {
 	gitBranchExists,
 	gitCheckoutBranch,
