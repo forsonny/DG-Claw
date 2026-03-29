@@ -1,5 +1,8 @@
 // @dg-claw/autolearn -- public API
 
+export type { ParsedArgs } from "./cli.js";
+// CLI (parseArgs and ParsedArgs exported for testing and external use)
+export { parseArgs } from "./cli.js";
 // Eval layer
 export { evaluate } from "./eval/harness.js";
 export { judgeResponse, parseJudgeResponse } from "./eval/judge.js";
@@ -18,10 +21,8 @@ export {
 } from "./git.js";
 // Mutation engine
 export { proposeMutation } from "./mutation-engine.js";
-
 // Ratchet loop
 export { runRatchet } from "./ratchet-loop.js";
-
 // Scheduler
 export { loadSchedules, saveSchedule, startDaemon } from "./scheduler.js";
 export type {
