@@ -14,6 +14,8 @@ export {
 	gitReset,
 	gitResetToMain,
 } from "./git.js";
+// Mutation engine
+export { proposeMutation } from "./mutation-engine.js";
 export type {
 	EvalResult,
 	IterationOutcome,
