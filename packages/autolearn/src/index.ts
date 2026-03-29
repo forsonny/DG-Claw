@@ -1,2 +1,13 @@
 // @dg-claw/autolearn -- public API
-// TODO: exports will be wired as each module is implemented in subsequent tasks
+export type {
+	EvalResult,
+	IterationOutcome,
+	JudgeScores,
+	MutationResult,
+	RatchetConfig,
+	RatchetRunSummary,
+	ScheduleEntry,
+	TestCase,
+	TestCaseResult,
+} from "./types.js";
+export { DEFAULTS } from "./types.js";
