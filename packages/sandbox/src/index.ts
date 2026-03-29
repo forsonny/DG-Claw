@@ -5,5 +5,5 @@
  * Docker container isolation with fallback to direct host execution.
  */
 
-// Types and defaults will be re-exported here after Task 2.
-export {};
+export type { ExecOptions, ExecResult, SandboxBackend, SandboxConfig } from "./types.js";
+export { SANDBOX_DEFAULTS } from "./types.js";
