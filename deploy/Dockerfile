@@ -77,8 +77,8 @@ COPY --from=builder /app/packages/sandbox/package.json packages/sandbox/
 COPY --from=builder /app/packages/server/dist packages/server/dist
 COPY --from=builder /app/packages/server/package.json packages/server/
 
-# Install production dependencies only
-RUN npm ci --omit=dev
+# Install production dependencies only (skip husky prepare script -- no git hooks in production)
+RUN npm ci --omit=dev --ignore-scripts
 
 # Server listens on port 3000
 EXPOSE 3000
