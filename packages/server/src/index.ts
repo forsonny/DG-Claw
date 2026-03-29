@@ -1,6 +1,14 @@
 // @dg-claw/server -- public API
 
-export { hashPassword, verifyPassword } from "./auth/password.js";
+export type { AuthPluginOptions } from "./auth/auth-plugin.js";
+export { authPluginRegistration } from "./auth/auth-plugin.js";
+export {
+	generateJwtToken,
+	hashPassword,
+	loadOrCreateAuth,
+	verifyJwtToken,
+	verifyPassword,
+} from "./auth/password.js";
 export { createServer } from "./server.js";
 export type {
 	ServerConfig,
