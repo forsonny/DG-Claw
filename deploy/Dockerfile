@@ -77,8 +77,13 @@ COPY --from=builder /app/packages/sandbox/package.json packages/sandbox/
 COPY --from=builder /app/packages/server/dist packages/server/dist
 COPY --from=builder /app/packages/server/package.json packages/server/
 
-# Install production dependencies only (skip husky prepare script -- no git hooks in production)
-RUN npm ci --omit=dev --ignore-scripts
+# Install build tools for native addons (better-sqlite3 needs node-gyp)
+RUN apt-get update && apt-get install -y python3 make g++ && rm -rf /var/lib/apt/lists/*
+
+# Install production dependencies only
+# Use --ignore-scripts to skip husky, then rebuild native addons explicitly
+RUN npm ci --omit=dev --ignore-scripts && \
+    npm rebuild better-sqlite3
 
 # Server listens on port 3000
 EXPOSE 3000
