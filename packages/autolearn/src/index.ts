@@ -1,0 +1,39 @@
+// @dg-claw/autolearn -- public API
+
+export type { ParsedArgs } from "./cli.js";
+// CLI (parseArgs and ParsedArgs exported for testing and external use)
+export { parseArgs } from "./cli.js";
+// Eval layer
+export { evaluate } from "./eval/harness.js";
+export { judgeResponse, parseJudgeResponse } from "./eval/judge.js";
+export { evaluateTestCase, loadTestCases, runTestCases } from "./eval/test-runner.js";
+// File lock
+export { acquireLock, isLocked } from "./file-lock.js";
+export {
+	gitBranchExists,
+	gitCheckoutBranch,
+	gitCommit,
+	gitCurrentBranch,
+	gitInit,
+	gitMerge,
+	gitReset,
+	gitResetToMain,
+} from "./git.js";
+// Mutation engine
+export { proposeMutation } from "./mutation-engine.js";
+// Ratchet loop
+export { runRatchet } from "./ratchet-loop.js";
+// Scheduler
+export { loadSchedules, saveSchedule, startDaemon } from "./scheduler.js";
+export type {
+	EvalResult,
+	IterationOutcome,
+	JudgeScores,
+	MutationResult,
+	RatchetConfig,
+	RatchetRunSummary,
+	ScheduleEntry,
+	TestCase,
+	TestCaseResult,
+} from "./types.js";
+export { DEFAULTS } from "./types.js";
