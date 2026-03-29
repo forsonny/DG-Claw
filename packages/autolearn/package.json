@@ -1,0 +1,40 @@
+{
+  "name": "@dg-claw/autolearn",
+  "version": "0.1.0",
+  "description": "Auto-learning engine for DG-Claw -- Karpathy ratchet loop for self-improving prompts",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "dg-claw-optimize": "dist/cli.js"
+  },
+  "scripts": {
+    "clean": "shx rm -rf dist",
+    "build": "tsgo -p tsconfig.build.json && shx chmod +x dist/cli.js",
+    "test": "vitest --run",
+    "check": "biome check --write --error-on-warnings ."
+  },
+  "dependencies": {
+    "@dg-claw/ai": "0.1.0",
+    "@dg-claw/memory": "0.1.0",
+    "better-sqlite3": "^11.0.0",
+    "croner": "^9.0.0",
+    "proper-lockfile": "^4.1.2"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.0",
+    "@types/proper-lockfile": "^4.1.4",
+    "@types/node": "^24.3.0",
+    "typescript": "^5.7.3",
+    "vitest": "^3.2.4"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/forsonny/DG-Claw.git",
+    "directory": "packages/autolearn"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
