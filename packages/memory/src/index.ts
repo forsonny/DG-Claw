@@ -1,3 +1,19 @@
 // @dg-claw/memory -- public API
-// Populated in subsequent tasks.
-export {};
+export {
+	AGENT_SPACE_CATEGORIES,
+	type AuditAction,
+	type AuditEntry,
+	type ExperimentEntry,
+	type ExperimentStatus,
+	MemoryCategory,
+	type MemoryEntry,
+	type MemoryExtensionConfig,
+	type MemoryScope,
+	type MemorySearchResult,
+	type MemoryStatus,
+	type TopOfMind,
+	USER_SPACE_CATEGORIES,
+	type WriteGateAction,
+	type WriteGateConfig,
+	type WriteGateResult,
+} from "./types.js";
