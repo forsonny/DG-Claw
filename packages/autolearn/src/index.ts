@@ -1,4 +1,15 @@
 // @dg-claw/autolearn -- public API
+
+export {
+	gitBranchExists,
+	gitCheckoutBranch,
+	gitCommit,
+	gitCurrentBranch,
+	gitInit,
+	gitMerge,
+	gitReset,
+	gitResetToMain,
+} from "./git.js";
 export type {
 	EvalResult,
 	IterationOutcome,
