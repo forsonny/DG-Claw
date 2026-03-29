@@ -1,0 +1,111 @@
+services:
+  # ============================================================================
+  # Traefik -- HTTPS reverse proxy with auto Let's Encrypt
+  # ============================================================================
+  traefik:
+    image: traefik:v3
+    restart: unless-stopped
+    command:
+      - --api.dashboard=true
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --providers.docker.network=dg-claw-public
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --entrypoints.web.http.redirections.entrypoint.to=websecure
+      - --certificatesresolvers.letsencrypt.acme.email=${DG_CLAW_ACME_EMAIL}
+      - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json
+      - --certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - traefik-certs:/letsencrypt
+    networks:
+      - dg-claw-public
+    labels:
+      - traefik.enable=true
+      # Dashboard at /traefik/ (password protected)
+      - traefik.http.routers.traefik-dashboard.rule=Host(`${DG_CLAW_DOMAIN}`) && PathPrefix(`/traefik`)
+      - traefik.http.routers.traefik-dashboard.entrypoints=websecure
+      - traefik.http.routers.traefik-dashboard.tls.certresolver=letsencrypt
+      - traefik.http.routers.traefik-dashboard.service=api@internal
+      - traefik.http.routers.traefik-dashboard.middlewares=traefik-auth,traefik-strip
+      - traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_DASHBOARD_AUTH}
+      - traefik.http.middlewares.traefik-strip.stripprefix.prefixes=/traefik
+
+  # ============================================================================
+  # DG-Claw Server -- Fastify + web-ui SPA + WebSocket + REST APIs
+  # ============================================================================
+  server:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    restart: unless-stopped
+    environment:
+      - DG_CLAW_PASSWORD=${DG_CLAW_PASSWORD}
+      - DG_CLAW_PORT=3000
+      - DOCKER_HOST=tcp://socket-proxy:2375
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - GROQ_API_KEY=${GROQ_API_KEY:-}
+      - DG_CLAW_SANDBOX_IMAGE=${DG_CLAW_SANDBOX_IMAGE:-node:20-slim}
+    volumes:
+      - dg-claw-data:/root/.dg-claw
+      - dg-claw-workspaces:/workspaces
+    networks:
+      - dg-claw-public
+      - dg-claw-internal
+    depends_on:
+      - socket-proxy
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.dg-claw.rule=Host(`${DG_CLAW_DOMAIN}`)
+      - traefik.http.routers.dg-claw.entrypoints=websecure
+      - traefik.http.routers.dg-claw.tls.certresolver=letsencrypt
+      - traefik.http.services.dg-claw.loadbalancer.server.port=3000
+
+  # ============================================================================
+  # Socket Proxy -- restricts Docker API access for sandbox containers
+  # ============================================================================
+  socket-proxy:
+    image: tecnativa/docker-socket-proxy:latest
+    restart: unless-stopped
+    environment:
+      CONTAINERS: 1
+      EXEC: 1
+      IMAGES: 1
+      POST: 1
+      NETWORKS: 0
+      VOLUMES: 0
+      SERVICES: 0
+      SWARM: 0
+      SECRETS: 0
+      CONFIGS: 0
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - dg-claw-internal
+
+# ==============================================================================
+# Networks
+# ==============================================================================
+networks:
+  dg-claw-public:
+    name: dg-claw-public
+  dg-claw-internal:
+    name: dg-claw-internal
+    internal: true  # No external access -- only server can reach socket-proxy
+
+# ==============================================================================
+# Volumes
+# ==============================================================================
+volumes:
+  traefik-certs:
+    name: traefik-certs
+  dg-claw-data:
+    name: dg-claw-data
+  dg-claw-workspaces:
+    name: dg-claw-workspaces
