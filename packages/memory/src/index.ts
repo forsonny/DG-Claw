@@ -1,6 +1,8 @@
 // @dg-claw/memory -- public API
 
+export { appendAudit, getAuditLog } from "./audit.js";
 export { closeMemoryDb, createMemoryDb } from "./db.js";
+export { archiveBelowThreshold, decayAll, reinforce } from "./salience.js";
 export { type InsertMemoryInput, MemoryStore } from "./store.js";
 export {
 	AGENT_SPACE_CATEGORIES,
