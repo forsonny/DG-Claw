@@ -43,20 +43,21 @@ else
     echo "[2/6] Docker Compose already installed."
 fi
 
-# ---------- 4. Create deployment directory ----------
+# ---------- 4. Set up in repo directory ----------
 echo "[3/6] Setting up deployment directory..."
-DEPLOY_DIR="${DG_CLAW_DEPLOY_DIR:-/opt/dg-claw}"
-mkdir -p "$DEPLOY_DIR"
-
-# Copy deploy files to deployment directory (if not already there)
+# The setup script must run from the deploy/ directory inside the cloned repo.
+# The Dockerfile needs the full repo as build context (context: ..)
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-if [ "$SCRIPT_DIR" != "$DEPLOY_DIR" ]; then
-    cp "$SCRIPT_DIR/docker-compose.yml" "$DEPLOY_DIR/"
-    cp "$SCRIPT_DIR/Dockerfile" "$DEPLOY_DIR/"
-    cp "$SCRIPT_DIR/.env.example" "$DEPLOY_DIR/"
-    [ -f "$SCRIPT_DIR/README.md" ] && cp "$SCRIPT_DIR/README.md" "$DEPLOY_DIR/"
+REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+# Verify we're inside a DG-Claw repo
+if [ ! -f "$REPO_DIR/packages/server/package.json" ]; then
+    echo "Error: setup.sh must be run from inside the DG-Claw repo."
+    echo "Run: git clone https://github.com/forsonny/DG-Claw.git && cd DG-Claw/deploy && bash setup.sh"
+    exit 1
 fi
-cd "$DEPLOY_DIR"
+
+cd "$SCRIPT_DIR"
 
 # ---------- 5. Interactive configuration ----------
 echo "[4/6] Configuration..."
@@ -127,4 +128,4 @@ done
 
 echo ""
 echo "Server is still starting. Check logs:"
-echo "  cd $DEPLOY_DIR && docker compose logs -f"
+echo "  cd $SCRIPT_DIR && docker compose logs -f"
