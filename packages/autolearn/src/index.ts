@@ -16,6 +16,9 @@ export {
 } from "./git.js";
 // Mutation engine
 export { proposeMutation } from "./mutation-engine.js";
+
+// Ratchet loop
+export { runRatchet } from "./ratchet-loop.js";
 export type {
 	EvalResult,
 	IterationOutcome,
