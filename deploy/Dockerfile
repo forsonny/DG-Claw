@@ -28,18 +28,20 @@ RUN npm ci
 COPY packages/ packages/
 COPY tsconfig.json ./
 
-# Build packages in dependency order
-RUN npm run build
-
-# Build server package
+# Build packages in correct dependency order:
+# tui -> ai -> agent -> memory -> sandbox -> coding-agent -> web-ui -> autolearn -> server
+# (memory must be built before coding-agent because memory-extension.ts imports from it)
+RUN cd packages/tui && npm run build
+RUN cd packages/ai && npm run build
+RUN cd packages/agent && npm run build
+RUN cd packages/memory && npm run build
+RUN cd packages/sandbox && npm run build
+RUN cd packages/coding-agent && npm run build
+RUN cd packages/web-ui && npm run build
+RUN cd packages/autolearn && npm run build
 RUN cd packages/server && npm run build
 
-# Build memory, autolearn, sandbox
-RUN cd packages/memory && npm run build
-RUN cd packages/autolearn && npm run build
-RUN cd packages/sandbox && npm run build
-
-# Build web-ui SPA (Vite build for the served app)
+# Build web-ui SPA (Vite build for the served app -- separate from library build)
 RUN cd packages/web-ui && npm run build:spa
 
 # ==============================================================================
