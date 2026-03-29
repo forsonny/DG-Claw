@@ -2,6 +2,7 @@
 
 export { appendAudit, getAuditLog } from "./audit.js";
 export { closeMemoryDb, createMemoryDb } from "./db.js";
+export { getBestExperiment, getExperimentHistory, logExperiment } from "./experiments.js";
 export { buildScopeKey, getTopOfMind, updateTopOfMind } from "./read/l0-top-of-mind.js";
 export { cosineSimilarity, packFacts } from "./read/l1-injection.js";
 export { type HybridSearchOptions, hybridSearch, searchBM25, searchVector } from "./read/l2-hybrid-search.js";
