@@ -21,7 +21,7 @@ const COOKIE_NAME = "dg_claw_jwt";
 const COOKIE_MAX_AGE_SECONDS = 24 * 60 * 60; // 24 hours
 
 /** Routes that do not require authentication. */
-const PUBLIC_PREFIXES = ["/api/auth/", "/login"];
+const PUBLIC_PREFIXES = ["/api/auth/", "/api/health", "/login"];
 
 function isPublicRoute(url: string): boolean {
 	for (const prefix of PUBLIC_PREFIXES) {
