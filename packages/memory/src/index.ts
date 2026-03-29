@@ -2,6 +2,7 @@
 
 export { appendAudit, getAuditLog } from "./audit.js";
 export { closeMemoryDb, createMemoryDb } from "./db.js";
+export { buildScopeKey, getTopOfMind, updateTopOfMind } from "./read/l0-top-of-mind.js";
 export { archiveBelowThreshold, decayAll, reinforce } from "./salience.js";
 export { type InsertMemoryInput, MemoryStore } from "./store.js";
 export {
