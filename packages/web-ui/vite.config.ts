@@ -1,17 +1,16 @@
+import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "vite";
 import { resolve } from "node:path";
 
 export default defineConfig({
 	root: resolve(import.meta.dirname),
+	plugins: [tailwindcss()],
 	build: {
 		outDir: "dist-spa",
 		emptyOutDir: true,
 		rollupOptions: {
 			input: resolve(import.meta.dirname, "index.html"),
 		},
-	},
-	css: {
-		transformer: "postcss",
 	},
 	server: {
 		port: 5173,
