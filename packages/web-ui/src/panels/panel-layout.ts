@@ -76,7 +76,7 @@ export class PanelLayout extends LitElement {
 		return html`
 			<div class="flex flex-col h-screen bg-[#0a0a0a] text-neutral-200">
 				<!-- Header bar -->
-				<header class="flex items-center justify-between px-4 h-11 border-b border-neutral-800 bg-[#0d0d0d] shrink-0">
+				<header class="flex items-center justify-between px-4 h-11 border-b border-neutral-800 bg-[#0d0d0d] shrink-0 order-first z-10">
 					<!-- Brand -->
 					<div class="flex items-center gap-2.5">
 						<div class="w-6 h-6 flex items-center justify-center">
