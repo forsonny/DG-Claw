@@ -90,8 +90,8 @@ export class AppShell extends LitElement {
 	override render() {
 		if (this.loading) {
 			return html`
-				<div class="w-full h-screen flex items-center justify-center bg-background text-foreground">
-					<div class="text-muted-foreground">Loading...</div>
+				<div class="w-full h-screen flex items-center justify-center bg-[#0a0a0a] text-neutral-400">
+					<div style="font-family: 'Geist Mono', ui-monospace, monospace;" class="text-xs uppercase tracking-widest">Loading...</div>
 				</div>
 			`;
 		}
