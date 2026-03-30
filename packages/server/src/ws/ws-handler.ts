@@ -51,32 +51,32 @@ export function registerWsHandler(fastify: FastifyInstance, options: WsHandlerOp
 		// For single-user scenario, use a fixed key. Multi-user would use a session/user ID.
 		const bridgeKey = "default";
 
-		let entry = activeBridges.get(bridgeKey);
-		if (entry) {
-			// Reuse existing bridge, clear idle timer
-			clearIdleTimer(entry);
-		} else {
-			// Create new bridge
-			const bridge = await createAgentBridge({
-				cwd: options.cwd,
-				agentDir: options.agentDir,
-				onMessage: (msg: WsServerMessage) => {
-					if (socket.readyState === socket.OPEN) {
-						socket.send(JSON.stringify(msg));
-					}
-				},
-				onError: (err: Error) => {
-					if (socket.readyState === socket.OPEN) {
-						socket.send(JSON.stringify({ type: "error", message: err.message }));
-					}
-				},
-			});
-
-			entry = { bridge, idleTimer: null };
-			activeBridges.set(bridgeKey, entry);
+		// Dispose existing bridge if any (previous connection closed)
+		const existing = activeBridges.get(bridgeKey);
+		if (existing) {
+			clearIdleTimer(existing);
+			existing.bridge.dispose();
+			activeBridges.delete(bridgeKey);
 		}
 
-		const { bridge } = entry;
+		// Create fresh bridge for this connection -- the onMessage callback
+		// must reference THIS socket, not a stale one from a previous connection.
+		const bridge = await createAgentBridge({
+			cwd: options.cwd,
+			agentDir: options.agentDir,
+			onMessage: (msg: WsServerMessage) => {
+				if (socket.readyState === socket.OPEN) {
+					socket.send(JSON.stringify(msg));
+				}
+			},
+			onError: (err: Error) => {
+				if (socket.readyState === socket.OPEN) {
+					socket.send(JSON.stringify({ type: "error", message: err.message }));
+				}
+			},
+		});
+
+		activeBridges.set(bridgeKey, { bridge, idleTimer: null });
 
 		// Send initial session list
 		const sessions = await bridge.getSessionList();
