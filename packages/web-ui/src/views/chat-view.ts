@@ -128,11 +128,13 @@ export class ChatView extends LitElement {
 				const agentMsg = (msg as { type: string; message: AgentMessage }).message;
 				const role = _resolveRole(agentMsg);
 				if (!role) break;
+				// Skip user messages from server -- we already added them optimistically in _send()
+				if (role === "user") break;
 				const chatMsg: ChatMessage = {
 					id: nextId(),
 					role,
 					text: _extractText(agentMsg),
-					streaming: role === "assistant",
+					streaming: true,
 				};
 				this.messages = [...this.messages, chatMsg];
 				break;
