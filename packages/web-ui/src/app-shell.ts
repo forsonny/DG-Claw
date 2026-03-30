@@ -78,12 +78,10 @@ export class AppShell extends LitElement {
 		}
 
 		return html`
-			<panel-layout .activePanel=${this.activePanel}>
-				<chat-view
-					slot="main"
-					.sessionId=${sessionId ?? null}
-				></chat-view>
-			</panel-layout>
+			<panel-layout
+				.activePanel=${this.activePanel}
+				.sessionId=${sessionId ?? null}
+			></panel-layout>
 		`;
 	}
 

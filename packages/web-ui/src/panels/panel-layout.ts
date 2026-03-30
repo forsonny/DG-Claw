@@ -1,18 +1,19 @@
 /**
- * Panel layout -- industrial command aesthetic.
+ * Panel layout -- renders header, chat view, and optional sidebar panel.
  *
- * Dark shell with header bar, panel toggle buttons, and slide-in sidebar.
- * The header establishes the DG-Claw brand identity.
+ * No Shadow DOM slots -- renders chat-view directly in the correct DOM order.
  */
 
 import { html, LitElement, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
+import "../views/chat-view.js";
 import "./memory-panel.js";
 import "./admin-panel.js";
 
 @customElement("panel-layout")
 export class PanelLayout extends LitElement {
 	@property({ type: String }) activePanel: string | null = null;
+	@property({ type: String }) sessionId: string | null = null;
 	@state() private panelOpen = false;
 
 	createRenderRoot() {
@@ -52,7 +53,7 @@ export class PanelLayout extends LitElement {
 		}
 	}
 
-	private _renderNavButton(label: string, panel: string, icon: unknown) {
+	private _navBtn(label: string, panel: string, icon: unknown) {
 		const active = this.activePanel === panel;
 		return html`
 			<button
@@ -74,30 +75,22 @@ export class PanelLayout extends LitElement {
 
 	override render() {
 		return html`
-			<div class="flex flex-col h-screen bg-[#0a0a0a] text-neutral-200">
-				<!-- Header bar -->
-				<header class="flex items-center justify-between px-4 h-11 border-b border-neutral-800 bg-[#0d0d0d] shrink-0 order-first z-10">
-					<!-- Brand -->
-					<div class="flex items-center gap-2.5">
-						<div class="w-6 h-6 flex items-center justify-center">
-							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-								 class="text-amber-500" stroke-width="1.5">
-								<path d="M6 3L2 7v7l4 4M18 3l4 4v7l-4 4M9 8l3-3 3 3M9 16l3 3 3-3M12 5v14"/>
-							</svg>
-						</div>
-						<span class="text-xs text-neutral-400 tracking-widest uppercase"
-							  style="font-family: 'Geist Mono', ui-monospace, monospace;">
+			<div style="display:flex;flex-direction:column;height:100%;overflow:hidden;background:#0a0a0a;color:#e5e5e5;">
+				<!-- HEADER -->
+				<div style="display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:44px;border-bottom:1px solid #262626;background:#0d0d0d;flex-shrink:0;">
+					<div style="display:flex;align-items:center;gap:10px;">
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.5">
+							<path d="M6 3L2 7v7l4 4M18 3l4 4v7l-4 4M9 8l3-3 3 3M9 16l3 3 3-3M12 5v14"/>
+						</svg>
+						<span style="font-family:'Geist Mono',ui-monospace,monospace;font-size:12px;color:#a3a3a3;letter-spacing:0.1em;text-transform:uppercase;">
 							DG-Claw
 						</span>
-						<span class="text-[10px] text-neutral-700 ml-1"
-							  style="font-family: 'Geist Mono', ui-monospace, monospace;">
+						<span style="font-family:'Geist Mono',ui-monospace,monospace;font-size:10px;color:#404040;">
 							v0.1.0
 						</span>
 					</div>
-
-					<!-- Nav buttons -->
-					<div class="flex items-center gap-1">
-						${this._renderNavButton(
+					<div style="display:flex;align-items:center;gap:4px;">
+						${this._navBtn(
 							"Memory",
 							"memory",
 							html`
@@ -106,7 +99,7 @@ export class PanelLayout extends LitElement {
 							</svg>
 						`,
 						)}
-						${this._renderNavButton(
+						${this._navBtn(
 							"Admin",
 							"admin",
 							html`
@@ -117,30 +110,26 @@ export class PanelLayout extends LitElement {
 						`,
 						)}
 					</div>
-				</header>
+				</div>
 
-				<!-- Body -->
-				<div class="flex flex-1 min-h-0 overflow-hidden">
-					<!-- Main content -->
-					<div class="flex-1 min-w-0">
-						<slot name="main"></slot>
+				<!-- BODY -->
+				<div style="display:flex;flex:1;min-height:0;overflow:hidden;">
+					<!-- Chat -->
+					<div style="flex:1;min-width:0;overflow:hidden;">
+						<chat-view .sessionId=${this.sessionId}></chat-view>
 					</div>
 
 					<!-- Panel sidebar -->
 					${
 						this.panelOpen
 							? html`
-						<div class="w-80 shrink-0 flex flex-col bg-[#0d0d0d] border-l border-neutral-800
-								   overflow-hidden"
-							 style="animation: panel-slide-in 0.15s ease-out;">
-							<!-- Panel header -->
-							<div class="flex items-center justify-between px-4 py-2.5 border-b border-neutral-800 shrink-0">
-								<span class="text-[11px] text-amber-500/80 uppercase tracking-widest font-medium"
-									  style="font-family: 'Geist Mono', ui-monospace, monospace;">
+						<div style="width:320px;flex-shrink:0;display:flex;flex-direction:column;background:#0d0d0d;border-left:1px solid #262626;overflow:hidden;animation:panel-slide-in 0.15s ease-out;">
+							<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid #262626;flex-shrink:0;">
+								<span style="font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;color:rgba(245,158,11,0.8);text-transform:uppercase;letter-spacing:0.1em;font-weight:500;">
 									${this.activePanel}
 								</span>
 								<button
-									class="text-neutral-600 hover:text-neutral-300 transition-colors p-0.5"
+									style="color:#525252;cursor:pointer;padding:2px;background:none;border:none;"
 									@click=${this.closePanel}
 									aria-label="Close panel"
 								>
@@ -151,9 +140,7 @@ export class PanelLayout extends LitElement {
 									</svg>
 								</button>
 							</div>
-
-							<!-- Panel content -->
-							<div class="flex-1 overflow-y-auto">
+							<div style="flex:1;overflow-y:auto;">
 								${this.renderPanelContent()}
 							</div>
 						</div>
@@ -167,17 +154,6 @@ export class PanelLayout extends LitElement {
 				@keyframes panel-slide-in {
 					from { transform: translateX(20px); opacity: 0; }
 					to { transform: translateX(0); opacity: 1; }
-				}
-				@media (max-width: 768px) {
-					.w-80 {
-						position: fixed;
-						top: 44px;
-						right: 0;
-						bottom: 0;
-						width: 100%;
-						max-width: 400px;
-						z-index: 50;
-					}
 				}
 			</style>
 		`;
