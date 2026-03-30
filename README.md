@@ -1,24 +1,30 @@
 # DG-Claw
 
-A full-service AI agent host for VPS deployment.
+A self-hosted AI agent platform for VPS deployment. Chat with AI agents through a web interface, with persistent memory, auto-learning, and sandboxed execution.
 
-Built on the [pi-mono](https://github.com/badlogic/pi-mono) agent runtime (forked as DG-Claw).
+Built on [pi-mono](https://github.com/badlogic/pi-mono) by Mario Zechner.
 
-## Status
+## Features
 
-**In development.** This is the foundation layer -- agent runtime, multi-provider LLM support, extension system.
+- **Web Interface** -- real-time chat via WebSocket, memory dashboard, admin panel
+- **Multi-Provider LLM** -- 20+ providers (Anthropic, OpenAI, Google, Groq, xAI, Mistral, and more)
+- **Persistent Memory** -- Entity:Slot:Value triples with 8 typed categories, hybrid BM25 + vector retrieval, salience decay
+- **Auto-Learning** -- Karpathy-style ratchet loop that self-improves system prompts overnight
+- **Sandboxed Execution** -- Docker container isolation for all tool execution (bash, file I/O, browser)
+- **One-Command Deploy** -- Docker Compose with Traefik (auto HTTPS) on any VPS
 
-## Packages
+## Quick Start (VPS)
 
-| Package | Description |
-|---|---|
-| `@dg-claw/ai` | Multi-provider LLM abstraction (20+ providers) |
-| `@dg-claw/agent` | Agent runtime, event system, tool execution |
-| `@dg-claw/coding-agent` | CLI agent with extensions, sessions, tools |
-| `@dg-claw/tui` | Terminal UI library |
-| `@dg-claw/web-ui` | Web UI components |
+```bash
+ssh root@your-vps
+git clone https://github.com/forsonny/DG-Claw.git
+cd DG-Claw/deploy
+bash setup.sh
+```
 
-## Getting Started
+The setup script installs Docker, prompts for your domain and password, and starts everything.
+
+## Quick Start (Local Dev)
 
 ```bash
 git clone https://github.com/forsonny/DG-Claw.git
@@ -27,14 +33,42 @@ npm install
 npm run build
 ```
 
-## Roadmap
+## Packages
 
-- [x] Fork and rebrand from pi-mono
-- [ ] Multi-channel messaging gateway
-- [ ] Persistent memory layer (episodic, semantic, procedural)
-- [ ] Auto-learning engine (Karpathy ratchet loop)
-- [ ] Sandboxed execution
-- [ ] VPS deployment packaging
+| Package | Description |
+|---|---|
+| `@dg-claw/ai` | Multi-provider LLM abstraction (20+ providers, streaming, tool use) |
+| `@dg-claw/agent` | Agent runtime with event system and tool execution |
+| `@dg-claw/coding-agent` | CLI agent with extensions, sessions, compaction |
+| `@dg-claw/memory` | Persistent memory -- SQLite + FTS5 + vector search |
+| `@dg-claw/autolearn` | Auto-learning ratchet loop with eval harness |
+| `@dg-claw/sandbox` | Docker container isolation with fallback |
+| `@dg-claw/server` | Fastify web server -- WebSocket, REST APIs, auth |
+| `@dg-claw/web-ui` | Lit web components + Vite SPA |
+| `@dg-claw/tui` | Terminal UI library |
+
+## Architecture
+
+```
+Browser --> Traefik (HTTPS) --> Fastify Server
+                                    |
+                                    +-- WebSocket (agent streaming)
+                                    +-- REST API (memory, admin, sessions)
+                                    +-- Static files (Lit SPA)
+                                    |
+                                    +-- Agent Runtime
+                                    +-- Memory Layer (SQLite)
+                                    +-- Sandbox (Docker)
+                                    +-- AutoLearn (ratchet loop)
+```
+
+## CLIs
+
+| Command | Purpose |
+|---|---|
+| `dg-claw` | Interactive coding agent (terminal) |
+| `dg-claw-server` | Start the web server |
+| `dg-claw-optimize <target>` | Run the auto-learning ratchet loop |
 
 ## License
 

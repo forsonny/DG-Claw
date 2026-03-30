@@ -25,12 +25,13 @@ packages/*/dist-firefox/
 coverage/
 .nyc_output/
 .pi_config/
+.maker-checkpoints/
 tui-debug.log
 compaction-results/
 .opencode/
 syntax.jsonl
 out.jsonl
-pi-*.html
+dg-claw-*.html
 out.html
 packages/coding-agent/binaries/
 todo.md
